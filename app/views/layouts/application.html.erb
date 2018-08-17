@@ -16,6 +16,7 @@
           <%= link_to "Home", root_path %>
           <%= link_to "Library", books_path %>
           <%= link_to "Your Shelves", user_shelves_path(current_user) %>
+          <%= link_to "Profile", user_path(current_user) %>
           <%= link_to "Sign Out", destroy_user_session_path, method: 'delete' %>
         <% else %>
           <%= link_to "Home", root_path %>

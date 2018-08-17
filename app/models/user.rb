@@ -55,6 +55,10 @@ class User < ApplicationRecord
     n
   end
 
+  def possessive
+    possessive = self.name + ('s' == self.name[-1,1] ? "'" : "'s")
+  end
+
 private
   def self.parse_name(user, name)
     name_arr = name.split(“ “)

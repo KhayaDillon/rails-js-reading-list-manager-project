@@ -38,7 +38,6 @@ group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   # Adds support for Capybara system testing and selenium driver
   gem 'capybara', '~> 2.13'
-  gem 'selenium-webdriver'
   gem "rspec-rails"
   gem "launchy"
   gem "rack_session_access"
@@ -47,7 +46,6 @@ group :development, :test do
   gem "factory_girl_rails"
   gem "simplecov"
   gem "database_cleaner"
-  gem "sqlite3"
   gem "pry"
   gem "guard-rspec", require: false
   gem "thin"
@@ -66,9 +64,9 @@ end
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 gem 'devise'
-
 gem 'nokogiri'
+gem 'active_model_serializers'
 
-gem 'omniauth'
-gem 'omniauth-facebook'
+gem 'omniauth', '~> 1.0.2'
+gem 'omniauth-facebook', '~> 1.2.0'
 gem 'dotenv-rails'

@@ -24,3 +24,24 @@
   border-left: 1.6em solid maroon;
   background-color: linen;
 }
+
+table caption a {
+  font-size: 2.5em;
+  color: black;
+  text-decoration: none;
+}
+
+table caption a:hover {
+  color: maroon;
+}
+
+table td {
+  border-top: 3px solid maroon;
+  background-color: linen;
+}
+
+table tr {
+	text-align: center;
+  height: 30px;
+  font-size: 1.2em;
+}

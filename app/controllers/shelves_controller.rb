@@ -1,11 +1,11 @@
 class ShelvesController < ApplicationController
   def index
-    if user_signed_in?
-      @shelves = current_user.shelves
-      @shelf = Shelf.new
-    else 
-      redirect_to root_path, notice: "You must be signed in to view your shelves."
-    end 
+    @shelves = current_user.shelves
+    @shelf = Shelf.new
+    respond_to do |format|
+      format.html { render :index } 
+      format.json { render json: @shelves }
+    end
   end
 
   def create 

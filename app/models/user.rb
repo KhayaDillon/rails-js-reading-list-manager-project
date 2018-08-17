@@ -59,6 +59,18 @@ class User < ApplicationRecord
     possessive = self.name + ('s' == self.name[-1,1] ? "'" : "'s")
   end
 
+  def current_reads
+    books = self.books.joins(:shelved_books).where(shelved_books: {status: "Currently Reading"})
+
+    books.collect { |book| book.title }
+  end
+
+  def finished_books
+    books = self.books.joins(:shelved_books).where(shelved_books: {status: "Finished"})
+
+    books.collect { |book| book.title }
+  end
+
 private
   def self.parse_name(user, name)
     name_arr = name.split(“ “)

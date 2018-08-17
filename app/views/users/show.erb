@@ -1,1 +1,10 @@
 <h1><%= @user.possessive.titlecase %> Profile</h1>
+ 
+<p>
+  <strong>Currently Reading</strong>
+  <%= @user.current_reads.join() %>
+</p>
+<p>
+  <strong>Completed Books</strong>
+  <%= @user.finished_books.join() %>
+</p>

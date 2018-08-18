@@ -66,6 +66,7 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'devise'
 gem 'nokogiri'
 gem 'active_model_serializers'
+gem 'jquery-rails'
 
 gem 'omniauth', '~> 1.0.2'
 gem 'omniauth-facebook', '~> 1.2.0'

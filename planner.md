@@ -19,9 +19,9 @@ Must translate the JSON responses into Javascript Model Objects, which must have
 
 To Do
   Create user page
-    -show currently reading and finished books
-    -transfer amount of books out and pages read to it
-    -'Khaya's Shelves link. Show shelves with table
+    x-show currently reading and finished books
+    x-transfer amount of books out and pages read to it
+    x-Shelves link. Show shelves with table
     -Click a shelf and table dissappears, shelf name and all books display, next button and back button
 
   Shelves create form

@@ -8,6 +8,11 @@ class ShelvesController < ApplicationController
     end
   end
 
+  def show
+    @shelf = Shelf.find(params[:id])
+    render json: @shelf
+  end
+
   def create 
     shelf = Shelf.new(shelf_params)
     if current_user.has_shelf?(shelf)

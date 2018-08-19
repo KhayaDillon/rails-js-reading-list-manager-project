@@ -36,5 +36,16 @@
     <% end %>
 
     <%= yield %>
+
+    <script id="shelf-template" type="text/x-handlebars-template">
+      <thead>
+        <tr><td>#{{name}}</td><tr>
+      </thead>
+      <tbody>
+        {{#each books}}
+         <tr><td>#{{title}}</td></tr>
+        {{/each}}
+      </tbody>
+    </script>
   </body>
 </html>

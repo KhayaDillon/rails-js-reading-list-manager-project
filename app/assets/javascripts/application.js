@@ -13,6 +13,7 @@
 //= require rails-ujs
 //= require turbolinks
 //= require_tree .
+//= require handlebars
 
 $(document).ready(function () {
 if (window.location.href.indexOf('#_=_') > 0) {

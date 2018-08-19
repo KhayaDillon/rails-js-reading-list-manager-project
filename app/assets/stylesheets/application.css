@@ -25,14 +25,17 @@
   background-color: linen;
 }
 
-table caption a {
+table caption button {
+  font-family: 'Times New Roman', Times, serif;
   font-size: 2.5em;
-  color: black;
-  text-decoration: none;
+  color: maroon;;
+  border: none;
+  background-color: white;
 }
 
-table caption a:hover {
-  color: maroon;
+table caption button:hover {
+  background-color: maroon;
+  color: white;
 }
 
 table td {

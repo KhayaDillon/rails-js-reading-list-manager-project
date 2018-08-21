@@ -19,7 +19,8 @@ class ShelvesController < ApplicationController
       redirect_to user_shelves_path(current_user), notice: "You already have a shelf with this name."
     else 
       shelf.save 
-      redirect_to user_shelves_path(current_user, anchor: "#{shelf.id}")
+      render json: shelf, status: 201, anchor: "#{shelf.id}"
+      #redirect_to user_shelves_path(current_user, anchor: "#{shelf.id}")
     end
   end 
 

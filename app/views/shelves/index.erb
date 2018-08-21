@@ -17,36 +17,38 @@
 </fieldset>
 <br><br>
 
-<% @shelves.each do |shelf| %>
-  <fieldset id="<%=shelf.id%>">
-    
-    <legend> <%= shelf.name %> Shelf </legend>
-    <% unless shelf.name == "Reading" || shelf.name == "Finished Reading" %>
-      <%= link_to "Edit Name", edit_shelf_path(shelf) %>
-      <%= link_to "Delete", shelf, method: :delete, data: { confirm: "Are you sure? Any books under this shelf will also be removed." } %>
-    <% end %>    
+<div id="shelves">
+  <% @shelves.each do |shelf| %>
+    <fieldset id="<%=shelf.id%>">
+      
+      <legend> <%= shelf.name %> Shelf </legend>
+      <% unless shelf.name == "Reading" || shelf.name == "Finished Reading" %>
+        <%= link_to "Edit Name", edit_shelf_path(shelf) %>
+        <%= link_to "Delete", shelf, method: :delete, data: { confirm: "Are you sure? Any books under this shelf will also be removed." } %>
+      <% end %>    
 
-    <% shelf.books.each do |book| %>
-      <div>
-        <h4><%= book.title %></h4>
-        By: <%= book.author %><br>
-        Genre: <%= book.genre %><br>
-        Pages Left: <%= book.pages_left %>
+      <% shelf.books.each do |book| %>
+        <div>
+          <h4><%= book.title %></h4>
+          By: <%= book.author %><br>
+          Genre: <%= book.genre %><br>
+          Pages Left: <%= book.pages_left %>
+          <br><br>
+          <%= form_for book.shelved_location do |f| %>
+            <%= f.label :current_page %>
+            <%= f.number_field :current_page, in: 0.0..book.page_count, required: true %>
+            <%= f.label :status %>
+            <%= f.select :status, ['Currently Reading', 'Plan to Read', 'On Hold', 'Finished', 'Dropped'] %>
+            <%= f.label :shelf_id %>
+            <%= f.collection_select :shelf_id, current_user.shelves, :id, :name %>
+            <%= f.submit "Update" %>
+          <% end %>
+        </div>
         <br><br>
-        <%= form_for book.shelved_location do |f| %>
-          <%= f.label :current_page %>
-          <%= f.number_field :current_page, in: 0.0..book.page_count, required: true %>
-          <%= f.label :status %>
-          <%= f.select :status, ['Currently Reading', 'Plan to Read', 'On Hold', 'Finished', 'Dropped'] %>
-          <%= f.label :shelf_id %>
-          <%= f.collection_select :shelf_id, current_user.shelves, :id, :name %>
-          <%= f.submit "Update" %>
-        <% end %>
-      </div>
-      <br><br>
-    <% end %>
+      <% end %>
 
-  </fieldset>
-  <br><br>
-<% end %>
+    </fieldset>
+    <br><br>
+  <% end %>
+</div>
 <br><br>

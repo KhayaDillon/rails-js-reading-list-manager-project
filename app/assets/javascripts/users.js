@@ -2,11 +2,11 @@
 $(document).ready(function() {
   showShelves()
   showBooks()
+  shelvesNewForm()
 })
 
 function showShelves() {
   $('#show_shelves').on('click', function() {
-    console.log("Hit")
     $.get('/shelves.json', function(resp) {
       let shelves = $(resp)
       shelves.each( index => {
@@ -17,13 +17,28 @@ function showShelves() {
 }
 
 function showBooks(shelfId) {
-  const template = Handlebars.compile(document.getElementById("shelf-template").innerHTML);
+  const template = Handlebars.compile(document.getElementById("shelf-template").innerHTML)
   console.log(shelfId)
-
-  $.get(`/shelves/${shelfId}`, function(resp) {
-    console.log(resp)
+  // $.get(`/shelves/${shelfId}`, function(resp) {
+  //   console.log(resp)
   //   const shelf = $(resp)
   //   const results = template(shelf)
-  //    $('table').html(result)
+  //   $('table').html(results)
+  // })
+}
+
+function shelvesNewForm() {
+  $('form#new_shelf').submit(function(event) {
+    event.preventDefault()
+
+    let values = $(this).serialize()
+    let post = $.post('/shelves', values)
+    post.done(function(data) {
+      let newShelf = data
+      const template = Handlebars.compile(document.getElementById("new-shelf-template").innerHTML)
+      let results = template(newShelf)
+      $('#shelves').append(results)
+      $("html, body").animate({ scrollTop: $(document).height() }, "slow")
+    })
   })
 }

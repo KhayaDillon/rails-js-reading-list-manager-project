@@ -45,30 +45,5 @@ function shelvesNewForm() {
   })
 }
 
-function shelvedBooksEditForm() {
-  $('.edit_shelved_book').submit(function(event) {
-    event.preventDefault()
 
-    let values = $(this).serialize()
- 
-    let patch = $.ajax({
-      type: 'PATCH',
-      url: this.getAttribute('action'),
-      data: values,
-      success: function(shelvedBook) {
-        alert("Success")
 
-        $.get(`/shelves/${shelvedBook['shelf_id']}`, function(shelf) {
-          const template = Handlebars.compile(document.getElementById("edit-shelved-book-template").innerHTML)
-          let results = template(shelf)
-          $(`fieldset#${shelf['id']}`).append(results)
-        })
-         
-      }
-    })
-
-    
-    
-    //patch.done()
-  })
-}

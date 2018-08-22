@@ -10,6 +10,11 @@ class ShelvedBooksController < ApplicationController
     end
   end
 
+  def show 
+    shelved_book = ShelvedBook.find(params[:id])
+    render json: shelved_book
+  end
+
   def update
     shelved_book = ShelvedBook.find(params[:id])
     old_stats = shelved_book.dup
@@ -29,7 +34,8 @@ class ShelvedBooksController < ApplicationController
       shelved_book.save
     end 
 
-    redirect_to user_shelves_path(current_user)
+    render json: shelved_book, status: 200
+    #redirect_to user_shelves_path(current_user)
   end
 
   private

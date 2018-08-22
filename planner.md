@@ -3,9 +3,9 @@ JS Reading List Manager
   Criteria
 Via jQuery and an Active Model Serialization...
 
-Must render at least one index page
+Must render at least one index resource
   -user's shelves 
-Must render at least one show page (ex, Next link)
+Must render at least one show resource (ex, Next link)
   -shelf show page
 Must reveal at least one has-many relationship
   -shelf has many shelved_books
@@ -24,9 +24,12 @@ To Do
     x-Shelves link. Show shelves with table
     -Click a shelf and table dissappears, shelf name and all books display, next button and back button
 
-  Shelves create form
+  Shelves create form 
+    x-submit form without loading
 
   Shelved_books update form
+    -submit form without loading
+    -record video
     -use JS class for Book Shelf Organizer instead
     -change flash and notice messages to alerts
 

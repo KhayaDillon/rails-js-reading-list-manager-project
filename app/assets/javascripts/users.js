@@ -3,10 +3,12 @@ $(document).ready(function() {
   showShelves()
   showBooks()
   shelvesNewForm()
+  shelvedBooksEditForm()
 })
 
 function showShelves() {
   $('#show_shelves').on('click', function() {
+
     $.get('/shelves.json', function(resp) {
       let shelves = $(resp)
       shelves.each( index => {
@@ -40,5 +42,33 @@ function shelvesNewForm() {
       $('#shelves').append(results)
       $("html, body").animate({ scrollTop: $(document).height() }, "slow")
     })
+  })
+}
+
+function shelvedBooksEditForm() {
+  $('.edit_shelved_book').submit(function(event) {
+    event.preventDefault()
+
+    let values = $(this).serialize()
+ 
+    let patch = $.ajax({
+      type: 'PATCH',
+      url: this.getAttribute('action'),
+      data: values,
+      success: function(shelvedBook) {
+        alert("Success")
+
+        $.get(`/shelves/${shelvedBook['shelf_id']}`, function(shelf) {
+          const template = Handlebars.compile(document.getElementById("edit-shelved-book-template").innerHTML)
+          let results = template(shelf)
+          $(`fieldset#${shelf['id']}`).append(results)
+        })
+         
+      }
+    })
+
+    
+    
+    //patch.done()
   })
 }

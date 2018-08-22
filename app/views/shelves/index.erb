@@ -19,7 +19,7 @@
 
 <div id="shelves">
   <% @shelves.each do |shelf| %>
-    <fieldset id="<%=shelf.id%>">
+    <fieldset id="shelf_<%=shelf.id%>">
       
       <legend> <%= shelf.name %> Shelf </legend>
       <% unless shelf.name == "Reading" || shelf.name == "Finished Reading" %>

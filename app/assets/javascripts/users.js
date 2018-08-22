@@ -56,22 +56,18 @@ function shelvedBooksEditForm() {
       url: this.getAttribute('action'),
       data: values,
       success: function(shelvedBook) {
-      
-      alert("Success")
-  
-      const template = Handlebars.compile(document.getElementById("edit-shelved-book-template").innerHTML)
-      let results = template(shelvedBook)
-      $(`fieldset#shelf_${shelvedBook['shelf_id']}`).append(results)
-         
+        $(`div#book_${shelvedBook['book_id']}`).remove()
+ 
+        const template = Handlebars.compile(document.getElementById("edit-shelved-book-template").innerHTML)
+        let results = template(shelvedBook)
+        $(`fieldset#shelf_${shelvedBook['shelf_id']}`).append(results)
+          
+        $(`div#book_${shelvedBook['book_id']}`).find(`option:contains(${shelvedBook['status']})`).attr('selected', 'selected')
+
+        $(`div#book_${shelvedBook['book_id']}`).find(`option:contains(${shelvedBook['shelf']['name']})`).attr('selected', 'selected')
+
       }
     })
-
-    
-    // $.get(`/shelves/${shelvedBook['shelf_id']}`, function(shelf) {
-    //   const template = Handlebars.compile(document.getElementById("edit-shelved-book-template").innerHTML)
-    //   let results = template(shelf)
-    //   $(`fieldset#${shelf['id']}`).append(results)
-    // })
-    //patch.done()
   })
 }
+

@@ -92,11 +92,11 @@
       <br><br>
     </script>
 
-    <script id="edit-shelved-book-template" type="text/x-handlebars-template"></script>
-      <div>
-        <h4></h4>
-        By: <br>
-        Genre: <br>
+    <script id="edit-shelved-book-template" type="text/x-handlebars-template">
+      <div id="book_{{book.id}}">
+        <h4>{{book.title}}</h4>
+        By: {{book.author}}<br>
+        Genre: {{book.genre}}<br>
         Pages Left: 
         <br><br>
         <form class="edit_shelved_book" id="edit_shelved_book_{{id}}" action="/shelved_books/{{id}}" accept-charset="UTF-8" method="post">
@@ -104,20 +104,19 @@
           <input type="hidden" name="_method" value="patch">
           <input type="hidden" name="authenticity_token" value="Ax4RFeQt4iknAc1Bq+tK6FgbvFg7hD1Gmn2ew5QAhOSa0ZiI21J5ff/DpMEQ796VtM2KkPzn+NcH02cWp25unw==">
           <label for="shelved_book_current_page">Current page</label>
-          <input required="required" min="0.0" max="284" type="number" value="0" name="{{current_page}}" id="shelved_book_current_page">
+          <input required="required" min="0.0" max="{{book.page_count}}" type="number" value="{{current_page}}" name="shelved_book[current_page]" id="shelved_book_current_page">
           <label for="shelved_book_status">Status</label>
-          <select name="{{status}}" id="shelved_book_status">
-            <option value="Currently Reading">Currently Reading</option>
-            <option selected="selected" value="Plan to Read">Plan to Read</option>
-            <option value="On Hold">On Hold</option>
-            <option value="Finished">Finished</option>
-            <option value="Dropped">Dropped</option>
-          </select>
+            <% statuses = ['Currently Reading', 'Plan to Read', 'On Hold', 'Finished', 'Dropped'] %>
+            <select name="shelved_book[status]" id="shelved_book_status">
+              <% statuses.each do |status| %>
+              <option value="<%= status %>"><%= status %></option> 
+              <% end %> 
+            </select>
           <label for="shelved_book_shelf_id">Shelf</label>
-          <select name="{{shelf_id}}" id="shelved_book_shelf_id">
+          <select name="shelved_book[shelf_id]" id="shelved_book_shelf_id">
             <% if user_signed_in? %>
               <% current_user.shelves.each do |shelf| %>
-                <option selected="selected" value="<%=shelf.id%>"><%=shelf.name%></option>
+                <option value="<%=shelf.id%>"><%=shelf.name%></option>
               <% end %>
             <% end %>
           <input type="submit" name="commit" value="Update" data-disable-with="Update">

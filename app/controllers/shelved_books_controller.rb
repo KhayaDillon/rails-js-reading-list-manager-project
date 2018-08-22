@@ -30,7 +30,8 @@ class ShelvedBooksController < ApplicationController
       shelved_book.save
     end 
 
-    redirect_to user_shelves_path(current_user)
+    render json: shelved_book, status: 200
+    #redirect_to user_shelves_path(current_user)
   end
 
   private

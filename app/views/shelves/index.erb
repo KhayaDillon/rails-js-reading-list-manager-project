@@ -28,7 +28,7 @@
       <% end %>    
 
       <% shelf.books.each do |book| %>
-        <div>
+        <div id="book_<%= book.id %>">
           <h4><%= book.title %></h4>
           By: <%= book.author %><br>
           Genre: <%= book.genre %><br>

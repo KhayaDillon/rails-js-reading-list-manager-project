@@ -29,9 +29,7 @@ To Do
 
   Shelved_books update form
     -submit form without loading
-    -record video
-    -use JS class for Book Shelf Organizer instead
-    -change flash and notice messages to alerts
+    -use JS class for shelved_book pages_left and books method
 
   Delete Facebook Omniauth
 

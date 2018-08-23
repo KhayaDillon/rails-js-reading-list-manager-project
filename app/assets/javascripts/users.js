@@ -4,15 +4,16 @@ $(document).ready(function() {
   showBooks()
   shelvesNewForm()
   shelvedBooksEditForm()
+  backToShelves()
 })
 
 function showShelves() {
-  $('#show_shelves').on('click', function() {
+  $('button#show_shelves').on('click', function() {
 
     $.get('/shelves.json', function(resp) {
       let shelves = $(resp)
       shelves.each( index => {
-        $('table').append(`<tr onclick="showBooks(${shelves[index].id})"><td>${shelves[index].name}</td></tr>`) 
+        $('table#user_shelves').append(`<tr onclick="showBooks(${shelves[index].id})"><td>${shelves[index].name}</td></tr>`) 
       })
     })
   })
@@ -20,13 +21,18 @@ function showShelves() {
 
 function showBooks(shelfId) {
   const template = Handlebars.compile(document.getElementById("shelf-template").innerHTML)
-  console.log(shelfId)
-  // $.get(`/shelves/${shelfId}`, function(resp) {
-  //   console.log(resp)
-  //   const shelf = $(resp)
-  //   const results = template(shelf)
-  //   $('table').html(results)
-  // })
+   $.get(`/shelves/${shelfId}`, function(resp) {
+     let results = template(resp)
+     $('table#user_shelves').html(results)
+   })
+}
+
+function backToShelves() {
+  $('tr#back').on('click', function() {
+    alert("Hit")
+    $('table#user_shelves').html("")
+    showShelves()
+  })
 }
 
 function shelvesNewForm() {
@@ -48,9 +54,9 @@ function shelvesNewForm() {
 function shelvedBooksEditForm() {
   $('.edit_shelved_book').submit(function(event) {
     event.preventDefault()
-
+    alert("Hit 1")
     let values = $(this).serialize()
- 
+    alert("Hit 1.5")
     $.ajax({
       type: 'PATCH',
       url: this.getAttribute('action'),
@@ -60,11 +66,8 @@ function shelvedBooksEditForm() {
 
         $(`div#book_${shelvedBook.book_id}`).remove()
  
-        alert("Hit 1")
         const template = Handlebars.compile(document.getElementById("edit-shelved-book-template").innerHTML)
         alert("Hit 2")
-        console.log(shelvedBookJson)
-        console.log(shelvedBook.json)
         let results = template(shelvedBook.json)
         alert("Hit 3")
         $(`fieldset#shelf_${shelvedBook.shelf_id}`).append(results)

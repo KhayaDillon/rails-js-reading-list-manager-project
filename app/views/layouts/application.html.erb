@@ -39,12 +39,14 @@
 
     <script id="shelf-template" type="text/x-handlebars-template">
       <thead>
-        <tr><td>{{name}}</td><tr>
+          <th>{{name}}</th>
       </thead>
       <tbody>
         {{#each books}}
          <tr><td>{{title}}</td></tr>
         {{/each}}
+        <tr id="back"><td><strong> << Back</strong></td></tr>
+        <tr><td><strong>Next >> </strong></td></tr>>
       </tbody>
     </script>
 
@@ -122,6 +124,7 @@
           <input type="submit" name="commit" value="Update" data-disable-with="Update">
         </form>        
       </div>
+      <br><br>
     </script>
 
   </body>

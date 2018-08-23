@@ -28,10 +28,14 @@ To Do
     x-submit form without loading
 
   Shelved_books update form
-    x-submit form without loading
-    -submit form without loading more than once
+    -submit form without loading
     x-use JS class for shelved_book pages_left and books method
 
   Delete Facebook Omniauth
+    x
+
+  Issues
+    x-move from finished reading shelf to fantasy shelf, doesn't appear
+    -trying to move to different shelves twice, shows json instead
 
   Makes use of ES6 features as much as possible(e.g Arrow functions, Let & Const, Class, constructor functions)

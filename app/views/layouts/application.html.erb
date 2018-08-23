@@ -97,12 +97,12 @@
         <h4>{{book.title}}</h4>
         By: {{book.author}}<br>
         Genre: {{book.genre}}<br>
-        Pages Left: 
+        Pages Left: {{pages_left this}}
         <br><br>
         <form class="edit_shelved_book" id="edit_shelved_book_{{id}}" action="/shelved_books/{{id}}" accept-charset="UTF-8" method="post">
           <input name="utf8" type="hidden" value="✓">
           <input type="hidden" name="_method" value="patch">
-          <input type="hidden" name="authenticity_token" value="Ax4RFeQt4iknAc1Bq+tK6FgbvFg7hD1Gmn2ew5QAhOSa0ZiI21J5ff/DpMEQ796VtM2KkPzn+NcH02cWp25unw==">
+          <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
           <label for="shelved_book_current_page">Current page</label>
           <input required="required" min="0.0" max="{{book.page_count}}" type="number" value="{{current_page}}" name="shelved_book[current_page]" id="shelved_book_current_page">
           <label for="shelved_book_status">Status</label>

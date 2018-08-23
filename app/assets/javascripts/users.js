@@ -51,23 +51,50 @@ function shelvedBooksEditForm() {
 
     let values = $(this).serialize()
  
-    let patch = $.ajax({
+    $.ajax({
       type: 'PATCH',
       url: this.getAttribute('action'),
       data: values,
-      success: function(shelvedBook) {
-        $(`div#book_${shelvedBook['book_id']}`).remove()
- 
-        const template = Handlebars.compile(document.getElementById("edit-shelved-book-template").innerHTML)
-        let results = template(shelvedBook)
-        $(`fieldset#shelf_${shelvedBook['shelf_id']}`).append(results)
-          
-        $(`div#book_${shelvedBook['book_id']}`).find(`option:contains(${shelvedBook['status']})`).attr('selected', 'selected')
+      success: function(shelvedBookJson) {
+        let shelvedBook = new ShelvedBook(shelvedBookJson)
 
-        $(`div#book_${shelvedBook['book_id']}`).find(`option:contains(${shelvedBook['shelf']['name']})`).attr('selected', 'selected')
+        $(`div#book_${shelvedBook.book_id}`).remove()
+ 
+        alert("Hit 1")
+        const template = Handlebars.compile(document.getElementById("edit-shelved-book-template").innerHTML)
+        alert("Hit 2")
+        console.log(shelvedBookJson)
+        console.log(shelvedBook.json)
+        let results = template(shelvedBook.json)
+        alert("Hit 3")
+        $(`fieldset#shelf_${shelvedBook.shelf_id}`).append(results)
+          
+        $(`div#book_${shelvedBook.book_id}`).find(`option:contains(${shelvedBook.status})`).attr('selected', 'selected')
+
+        $(`div#book_${shelvedBookJson['book_id']}`).find(`option:contains(${shelvedBook.shelf_name})`).attr('selected', 'selected')
 
       }
     })
   })
 }
 
+class ShelvedBook {
+  constructor(shelvedBook) {
+    this.json = shelvedBook
+    this.status = shelvedBook['status']
+    this.shelf_id = shelvedBook['shelf_id']
+    this.book_id = shelvedBook['book_id']
+    this.shelf_name = shelvedBook['shelf']['name']
+    this.page_count = shelvedBook['book']['page_count']
+    this.current_page = shelvedBook['current_page']
+  }
+
+  pages_left() {
+    return this.page_count - this.current_page
+  }
+}
+
+Handlebars.registerHelper('pages_left', function(shelvedBookJson) {
+  let shelvedBook = new ShelvedBook(shelvedBookJson)
+  return shelvedBook.pages_left()
+})

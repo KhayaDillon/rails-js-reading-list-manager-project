@@ -28,8 +28,9 @@ To Do
     x-submit form without loading
 
   Shelved_books update form
-    -submit form without loading
-    -use JS class for shelved_book pages_left and books method
+    x-submit form without loading
+    -submit form without loading more than once
+    x-use JS class for shelved_book pages_left and books method
 
   Delete Facebook Omniauth
 

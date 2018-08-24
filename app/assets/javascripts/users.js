@@ -7,6 +7,11 @@ $(document).ready(function() {
   onShelvesClick()
 })
 
+$(document).ajaxError(function(event, request) {
+  var msg = request.getResponseHeader('X-Message');
+  if (msg) alert(msg);
+})
+
 function showShelves() {
   let table = $('table#user_shelves')
   if (table.html("") || table.css('display') === "none") {
@@ -78,7 +83,6 @@ function onUpdateFormSubmit() {
 
 function shelvedBooksEditForm(form) {
     let values = $(form).serialize()
-   
     $.ajax({
       type: 'PATCH',
       url: form.getAttribute('action'),

@@ -1,4 +1,6 @@
 class ShelvedBooksController < ApplicationController
+  after_filter :flash_to_headers, only: :update
+  
   def create   
     shelved_book = ShelvedBook.new(shelved_book_new_hash)
     if current_user.has_book?(shelved_book.title)
@@ -46,4 +48,5 @@ class ShelvedBooksController < ApplicationController
     def shelved_book_params
       params.require(:shelved_book).permit(:shelf_id, :book_id, :current_page, :status)
     end 
+
 end

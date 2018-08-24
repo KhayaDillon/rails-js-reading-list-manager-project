@@ -45,8 +45,8 @@
         {{#each books}}
          <tr><td>{{title}}</td></tr>
         {{/each}}
-        <tr id="back"><td><strong> << Back</strong></td></tr>
-        <tr><td><strong>Next >> </strong></td></tr>>
+        <tr onclick="backToShelves()"><td><strong> << Back</strong></td></tr>
+        <tr onclick="nextShelf({{id}})"><td><strong>Next >> </strong></td></tr>
       </tbody>
     </script>
 
@@ -121,7 +121,7 @@
                 <option value="<%=shelf.id%>"><%=shelf.name%></option>
               <% end %>
             <% end %>
-          <input type="submit" name="commit" value="Update" data-disable-with="Update">
+          <input type="submit" value="Update" onclick="shelvedBooksEditForm(document.querySelector('form#edit_shelved_book_{{id}}'))"> 
         </form>        
       </div>
       <br><br>

@@ -1,25 +1,36 @@
 
 $(document).ready(function() {
-  showShelves()
-  showBooks()
+  showShelf()
   shelvesNewForm()
-  shelvedBooksEditForm()
+  onUpdateFormSubmit()
   backToShelves()
+  onShelvesClick()
 })
 
 function showShelves() {
-  $('button#show_shelves').on('click', function() {
-
+  let table = $('table#user_shelves')
+  if (table.html("") || table.css('display') === "none") {
+    table.css('display', 'block')
     $.get('/shelves.json', function(resp) {
       let shelves = $(resp)
       shelves.each( index => {
-        $('table#user_shelves').append(`<tr onclick="showBooks(${shelves[index].id})"><td>${shelves[index].name}</td></tr>`) 
+        table.append(`<tr onclick="showShelf(${shelves[index].id})"><td>${shelves[index].name}</td></tr>`) 
       })
     })
+  }
+}
+
+function onShelvesClick() {
+  $('button#show_shelves').on('click', function() {
+    if ($('table#user_shelves').css('display') === "none") {
+      showShelves()
+    } else {
+      $('table#user_shelves').css('display', 'none')
+    }
   })
 }
 
-function showBooks(shelfId) {
+function showShelf(shelfId) {
   const template = Handlebars.compile(document.getElementById("shelf-template").innerHTML)
    $.get(`/shelves/${shelfId}`, function(resp) {
      let results = template(resp)
@@ -28,11 +39,18 @@ function showBooks(shelfId) {
 }
 
 function backToShelves() {
-  $('tr#back').on('click', function() {
-    alert("Hit")
-    $('table#user_shelves').html("")
-    showShelves()
-  })
+  $('table#user_shelves').html("")
+  showShelves()
+}
+
+function nextShelf(id) {
+  var shelfId = id + 1
+  $('table#user_shelves').html("")
+  const template = Handlebars.compile(document.getElementById("shelf-template").innerHTML)
+   $.get(`/shelves/${shelfId}`, function(resp) {
+     let results = template(resp)
+     $('table#user_shelves').html(results)
+   })
 }
 
 function shelvesNewForm() {
@@ -51,15 +69,19 @@ function shelvesNewForm() {
   })
 }
 
-function shelvedBooksEditForm() {
+function onUpdateFormSubmit() {
   $('.edit_shelved_book').submit(function(event) {
     event.preventDefault()
-    alert("Hit 1")
-    let values = $(this).serialize()
-    alert("Hit 1.5")
+    shelvedBooksEditForm(this)
+  })
+}
+
+function shelvedBooksEditForm(form) {
+    let values = $(form).serialize()
+   
     $.ajax({
       type: 'PATCH',
-      url: this.getAttribute('action'),
+      url: form.getAttribute('action'),
       data: values,
       success: function(shelvedBookJson) {
         let shelvedBook = new ShelvedBook(shelvedBookJson)
@@ -67,9 +89,7 @@ function shelvedBooksEditForm() {
         $(`div#book_${shelvedBook.book_id}`).remove()
  
         const template = Handlebars.compile(document.getElementById("edit-shelved-book-template").innerHTML)
-        alert("Hit 2")
         let results = template(shelvedBook.json)
-        alert("Hit 3")
         $(`fieldset#shelf_${shelvedBook.shelf_id}`).append(results)
           
         $(`div#book_${shelvedBook.book_id}`).find(`option:contains(${shelvedBook.status})`).attr('selected', 'selected')
@@ -78,7 +98,6 @@ function shelvedBooksEditForm() {
 
       }
     })
-  })
 }
 
 class ShelvedBook {

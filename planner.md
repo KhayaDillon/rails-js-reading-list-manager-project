@@ -22,7 +22,7 @@ To Do
     x-show currently reading and finished books
     x-transfer amount of books out and pages read to it
     x-Shelves link. Show shelves with table
-    -Click a shelf and table dissappears, shelf name and all books display, next button and back button
+    x-Click a shelf and table dissappears, shelf name and all books display, next button and back button
 
   Shelves create form 
     x-submit form without loading
@@ -37,5 +37,9 @@ To Do
   Issues
     x-move from finished reading shelf to fantasy shelf, doesn't appear
     -trying to move to different shelves twice, shows json instead
+    x-shelves table, clicking shelf name doesn't show shelf
+    x-click shelves twice to make it disappear
+    x-shelves, click twice, table doesn't show twice
+    -shelves initially show without click
 
   Makes use of ES6 features as much as possible(e.g Arrow functions, Let & Const, Class, constructor functions)

@@ -5,12 +5,7 @@ $(document).ready(function() {
   onUpdateFormSubmit()
   //backToShelves()
   onShelvesClick()
-})
 
-$(document).ajaxError(function(event, request) {
-  var msg = request.getResponseHeader('X-Message');
-  if (msg) alert(msg);
-})
 
 function showShelves() {
   let table = $('table#user_shelves')
@@ -92,6 +87,7 @@ function shelvedBooksEditForm(form) {
       data: values,
       success: function(shelvedBookJson) {
         let shelvedBook = new ShelvedBook(shelvedBookJson)
+        debugger
 
         $(`div#book_${shelvedBook.book_id}`).remove()
 

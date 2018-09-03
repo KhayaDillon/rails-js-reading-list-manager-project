@@ -1,5 +1,4 @@
 class ShelvedBooksController < ApplicationController
-  #after_filter :flash_to_headers, only: :update
 
   def create
     shelved_book = ShelvedBook.new(shelved_book_new_hash)
@@ -20,13 +19,13 @@ class ShelvedBooksController < ApplicationController
 
     book_info = {updated: shelved_book, old: old_stats, owner: current_user}
 
-    BookShelfOrganizer.status_change_from_fin_shelf(book_info, flash)
+    BookShelfOrganizer.status_change_from_fin_shelf(book_info)
 
-    BookShelfOrganizer.shelf_set_to_read_with_fin_status(book_info, flash)
+    BookShelfOrganizer.shelf_set_to_read_with_fin_status(book_info)
 
-    BookShelfOrganizer.shelf_set_to_fin(book_info, flash)
+    BookShelfOrganizer.shelf_set_to_fin(book_info)
 
-    BookShelfOrganizer.set_status(book_info, flash)
+    BookShelfOrganizer.set_status(book_info)
 
     if shelved_book
       shelved_book.save

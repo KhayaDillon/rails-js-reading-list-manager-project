@@ -1,8 +1,9 @@
 # Reading List Manager
+This web application allows users to move books to their personal created shelves from a scraped library of books. Once shelved, users can keep track of their books by setting their statuses to options like plan to read, currently reading, and had finished reading.
 
 ## Usage
 
-To use this app, clone, run rake db:migrate and then run rail server.
+To use this app, clone, run rake db:migrate, rake db:seed, and then run rail server.
 
 ## Contributing
 

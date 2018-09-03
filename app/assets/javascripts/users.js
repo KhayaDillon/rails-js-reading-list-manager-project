@@ -3,7 +3,7 @@ $(document).ready(function() {
   showShelf()
   shelvesNewForm()
   onUpdateFormSubmit()
-  backToShelves()
+  //backToShelves()
   onShelvesClick()
 })
 
@@ -19,7 +19,7 @@ function showShelves() {
     $.get('/shelves.json', function(resp) {
       let shelves = $(resp)
       shelves.each( index => {
-        table.append(`<tr onclick="showShelf(${shelves[index].id})"><td>${shelves[index].name}</td></tr>`) 
+        table.append(`<tr onclick="showShelf(${shelves[index].id})"><td>${shelves[index].name}</td></tr>`)
       })
     })
   }
@@ -82,6 +82,9 @@ function onUpdateFormSubmit() {
 }
 
 function shelvedBooksEditForm(form) {
+  if (event.type !== "submit") {
+    event.preventDefault()
+  }
     let values = $(form).serialize()
     $.ajax({
       type: 'PATCH',
@@ -91,11 +94,11 @@ function shelvedBooksEditForm(form) {
         let shelvedBook = new ShelvedBook(shelvedBookJson)
 
         $(`div#book_${shelvedBook.book_id}`).remove()
- 
+
         const template = Handlebars.compile(document.getElementById("edit-shelved-book-template").innerHTML)
         let results = template(shelvedBook.json)
         $(`fieldset#shelf_${shelvedBook.shelf_id}`).append(results)
-          
+
         $(`div#book_${shelvedBook.book_id}`).find(`option:contains(${shelvedBook.status})`).attr('selected', 'selected')
 
         $(`div#book_${shelvedBookJson['book_id']}`).find(`option:contains(${shelvedBook.shelf_name})`).attr('selected', 'selected')

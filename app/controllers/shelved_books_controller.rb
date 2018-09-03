@@ -1,7 +1,7 @@
 class ShelvedBooksController < ApplicationController
-  after_filter :flash_to_headers, only: :update
-  
-  def create   
+  #after_filter :flash_to_headers, only: :update
+
+  def create
     shelved_book = ShelvedBook.new(shelved_book_new_hash)
     if current_user.has_book?(shelved_book.title)
       redirect_to books_path, notice: "You already have this book."
@@ -12,14 +12,14 @@ class ShelvedBooksController < ApplicationController
     end
   end
 
-  
+
   def update
     shelved_book = ShelvedBook.find(params[:id])
     old_stats = shelved_book.dup
     shelved_book.update(shelved_book_params)
 
     book_info = {updated: shelved_book, old: old_stats, owner: current_user}
-    
+
     BookShelfOrganizer.status_change_from_fin_shelf(book_info, flash)
 
     BookShelfOrganizer.shelf_set_to_read_with_fin_status(book_info, flash)
@@ -27,10 +27,10 @@ class ShelvedBooksController < ApplicationController
     BookShelfOrganizer.shelf_set_to_fin(book_info, flash)
 
     BookShelfOrganizer.set_status(book_info, flash)
- 
+
     if shelved_book
       shelved_book.save
-    end 
+    end
 
     render json: shelved_book, status: 200
     #redirect_to user_shelves_path(current_user)
@@ -43,10 +43,10 @@ class ShelvedBooksController < ApplicationController
       book_copy = book.dup
       book_copy.save
       {shelf_id: shelf.id, book_id: book_copy.id}
-    end 
+    end
 
     def shelved_book_params
       params.require(:shelved_book).permit(:shelf_id, :book_id, :current_page, :status)
-    end 
+    end
 
 end

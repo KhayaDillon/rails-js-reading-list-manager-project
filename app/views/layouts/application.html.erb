@@ -3,7 +3,7 @@
   <head>
     <title>RailsReadingListManagerProject</title>
     <%= csrf_meta_tags %>
-    
+
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
@@ -14,7 +14,7 @@
     <nav>
       <ul>
         <% if user_signed_in? %>
-          Hello <%= current_user.name.capitalize %>, 
+          Hello <%= current_user.name.capitalize %>,
           <%= link_to "Home", root_path %>
           <%= link_to "Library", books_path %>
           <%= link_to "Your Shelves", user_shelves_path(current_user) %>
@@ -51,7 +51,7 @@
     </script>
 
     <script id="new-shelf-template" type="text/x-handlebars-template">
-      <fieldset id="shelf_{{id}}">  
+      <fieldset id="shelf_{{id}}">
         <legend> {{name}} Shelf </legend>
         <a href="/shelves/5/edit">Edit Name</a>
         <a data-confirm="Are you sure? Any books under this shelf will also be removed." rel="nofollow" data-method="delete" href="/shelves/5">Delete</a>
@@ -85,7 +85,7 @@
                   <% end %>
                 <% end %>
               <input type="submit" name="commit" value="Update" data-disable-with="Update">
-            </form>        
+            </form>
           </div>
 
         {{/each}}
@@ -111,8 +111,8 @@
             <% statuses = ['Currently Reading', 'Plan to Read', 'On Hold', 'Finished', 'Dropped'] %>
             <select name="shelved_book[status]" id="shelved_book_status">
               <% statuses.each do |status| %>
-              <option value="<%= status %>"><%= status %></option> 
-              <% end %> 
+              <option value="<%= status %>"><%= status %></option>
+              <% end %>
             </select>
           <label for="shelved_book_shelf_id">Shelf</label>
           <select name="shelved_book[shelf_id]" id="shelved_book_shelf_id">
@@ -121,8 +121,8 @@
                 <option value="<%=shelf.id%>"><%=shelf.name%></option>
               <% end %>
             <% end %>
-          <input type="submit" value="Update" onclick="shelvedBooksEditForm(document.querySelector('form#edit_shelved_book_{{id}}'))"> 
-        </form>        
+          <input type="submit" value="Update" onclick="shelvedBooksEditForm(document.querySelector('form#edit_shelved_book_{{id}}'))">
+        </form>
       </div>
       <br><br>
     </script>

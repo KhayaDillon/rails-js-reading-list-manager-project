@@ -4,7 +4,7 @@ JS Reading List Manager
 Via jQuery and an Active Model Serialization...
 
 Must render at least one index resource
-  -user's shelves 
+  -user's shelves
 Must render at least one show resource (ex, Next link)
   -shelf show page
 Must reveal at least one has-many relationship
@@ -24,7 +24,7 @@ To Do
     x-Shelves link. Show shelves with table
     x-Click a shelf and table dissappears, shelf name and all books display, next button and back button
 
-  Shelves create form 
+  Shelves create form
     x-submit form without loading
 
   Shelved_books update form
@@ -36,11 +36,11 @@ To Do
 
   Issues
     x-move from finished reading shelf to fantasy shelf, doesn't appear
-    -trying to move to different shelves twice, shows json instead
+    x-trying to move to different shelves twice, shows json instead
     x-shelves table, clicking shelf name doesn't show shelf
     x-click shelves twice to make it disappear
     x-shelves, click twice, table doesn't show twice
-    -shelves initially show without click
+    x-shelves initially show without click
     -notices don't show until reload, have to make alerts
 
   Makes use of ES6 features as much as possible(e.g Arrow functions, Let & Const, Class, constructor functions)

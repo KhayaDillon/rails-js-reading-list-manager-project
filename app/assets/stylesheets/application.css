@@ -42,12 +42,16 @@ button#show_shelves:hover {
   color: white;
 }
 
-table td {
+table#user_shelves {
+  display: none;
+}
+
+table#user_shelves td {
   border-top: 3px solid maroon;
   background-color: linen;
 }
 
-table tr {
+table#user_shelves tr {
 	text-align: center;
   height: 30px;
   font-size: 1.2em;

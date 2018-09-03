@@ -1,18 +1,16 @@
 
 $(document).ready(function() {
-  showShelf()
   shelvesNewForm()
   onUpdateFormSubmit()
-  //backToShelves()
   onShelvesClick()
-
+})
 
 function showShelves() {
-  let table = $('table#user_shelves')
+  const table = $('table#user_shelves')
   if (table.html("") || table.css('display') === "none") {
     table.css('display', 'block')
-    $.get('/shelves.json', function(resp) {
-      let shelves = $(resp)
+    $.get('/shelves.json', resp => {
+      const shelves = $(resp)
       shelves.each( index => {
         table.append(`<tr onclick="showShelf(${shelves[index].id})"><td>${shelves[index].name}</td></tr>`)
       })
@@ -21,7 +19,7 @@ function showShelves() {
 }
 
 function onShelvesClick() {
-  $('button#show_shelves').on('click', function() {
+  $('button#show_shelves').on('click', () => {
     if ($('table#user_shelves').css('display') === "none") {
       showShelves()
     } else {
@@ -32,7 +30,7 @@ function onShelvesClick() {
 
 function showShelf(shelfId) {
   const template = Handlebars.compile(document.getElementById("shelf-template").innerHTML)
-   $.get(`/shelves/${shelfId}`, function(resp) {
+   $.get(`/shelves/${shelfId}`, resp => {
      let results = template(resp)
      $('table#user_shelves').html(results)
    })
@@ -44,10 +42,10 @@ function backToShelves() {
 }
 
 function nextShelf(id) {
-  var shelfId = id + 1
+  let shelfId = id + 1
   $('table#user_shelves').html("")
   const template = Handlebars.compile(document.getElementById("shelf-template").innerHTML)
-   $.get(`/shelves/${shelfId}`, function(resp) {
+   $.get(`/shelves/${shelfId}`, resp => {
      let results = template(resp)
      $('table#user_shelves').html(results)
    })
@@ -57,19 +55,17 @@ function shelvesNewForm() {
   $('form#new_shelf').submit(function(event) {
     event.preventDefault()
 
-    let values = $(this).serialize()
-    let post = $.post('/shelves', values)
+    const post = $.post('/shelves', $(this).serialize())
     post.done(function(data) {
-      let newShelf = data
       const template = Handlebars.compile(document.getElementById("new-shelf-template").innerHTML)
-      let results = template(newShelf)
+      const results = template(data)
       $('#shelves').append(results)
-      $("html, body").animate({ scrollTop: $(document).height() }, "slow")
+      if (!!data.id) $("html, body").animate({ scrollTop: $(document).height() }, "slow")
     })
   })
 }
 
-function onUpdateFormSubmit() {
+const onUpdateFormSubmit = () => {
   $('.edit_shelved_book').submit(function(event) {
     event.preventDefault()
     shelvedBooksEditForm(this)
@@ -77,30 +73,32 @@ function onUpdateFormSubmit() {
 }
 
 function shelvedBooksEditForm(form) {
-  if (event.type !== "submit") {
-    event.preventDefault()
-  }
-    let values = $(form).serialize()
+  if (event.type !== "submit") event.preventDefault()
+    const values = $(form).serialize()
     $.ajax({
       type: 'PATCH',
       url: form.getAttribute('action'),
       data: values,
-      success: function(shelvedBookJson) {
+      success: (shelvedBookJson) => {
         let shelvedBook = new ShelvedBook(shelvedBookJson)
-        debugger
+        const previousShelf = $(`div#book_${shelvedBook.book_id}`).parent()
+        const currentShelf = $(`fieldset#shelf_${shelvedBook.shelf_id}`)
 
+        if (previousShelf.attr('id') === currentShelf.attr('id')) alert("Invalid Changes")
         $(`div#book_${shelvedBook.book_id}`).remove()
 
         const template = Handlebars.compile(document.getElementById("edit-shelved-book-template").innerHTML)
         let results = template(shelvedBook.json)
-        $(`fieldset#shelf_${shelvedBook.shelf_id}`).append(results)
+        currentShelf.append(results)
 
-        $(`div#book_${shelvedBook.book_id}`).find(`option:contains(${shelvedBook.status})`).attr('selected', 'selected')
-
-        $(`div#book_${shelvedBookJson['book_id']}`).find(`option:contains(${shelvedBook.shelf_name})`).attr('selected', 'selected')
-
+        selectOption(shelvedBook.book_id, shelvedBook.status)
+        selectOption(shelvedBook.book_id, shelvedBook.shelf_name)
       }
     })
+}
+
+const selectOption = (book_id, attr) => {
+  $(`div#book_${book_id}`).find(`option:contains(${attr})`).attr('selected', 'selected')
 }
 
 class ShelvedBook {

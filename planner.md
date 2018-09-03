@@ -41,6 +41,6 @@ To Do
     x-click shelves twice to make it disappear
     x-shelves, click twice, table doesn't show twice
     x-shelves initially show without click
-    -notices don't show until reload, have to make alerts
+    x-notices don't show until reload, have to make alerts
 
-  Makes use of ES6 features as much as possible(e.g Arrow functions, Let & Const, Class, constructor functions)
+  x-Makes use of ES6 features as much as possible(e.g Arrow functions, Let & Const, Class, constructor functions)

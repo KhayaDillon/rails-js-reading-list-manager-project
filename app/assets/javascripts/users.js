@@ -19,6 +19,7 @@ function showShelves() {
 }
 
 function onShelvesClick() {
+  debugger
   $('button#show_shelves').on('click', () => {
     if ($('table#user_shelves').css('display') === "none") {
       showShelves()
@@ -65,7 +66,7 @@ function shelvesNewForm() {
   })
 }
 
-const onUpdateFormSubmit = () => {
+function onUpdateFormSubmit() {
   $('.edit_shelved_book').submit(function(event) {
     event.preventDefault()
     shelvedBooksEditForm(this)
@@ -74,30 +75,33 @@ const onUpdateFormSubmit = () => {
 
 function shelvedBooksEditForm(form) {
   if (event.type !== "submit") event.preventDefault()
-    const values = $(form).serialize()
-    $.ajax({
-      type: 'PATCH',
-      url: form.getAttribute('action'),
-      data: values,
-      success: (shelvedBookJson) => {
-        let shelvedBook = new ShelvedBook(shelvedBookJson)
-        const previousShelf = $(`div#book_${shelvedBook.book_id}`).parent()
-        const currentShelf = $(`fieldset#shelf_${shelvedBook.shelf_id}`)
+  const values = $(form).serialize()
+  const wantedShelfId = `shelf_${$(form).serializeArray()[5]['value']}`
+  $.ajax({
+    type: 'PATCH',
+    url: form.getAttribute('action'),
+    data: values,
+    success: (shelvedBookJson) => {
+      let shelvedBook = new ShelvedBook(shelvedBookJson)
+      const previousShelf = $(`div#book_${shelvedBook.book_id}`).parent()
+      const currentShelf = $(`fieldset#shelf_${shelvedBook.shelf_id}`)
 
-        if (previousShelf.attr('id') === currentShelf.attr('id')) alert("Invalid Changes")
-        $(`div#book_${shelvedBook.book_id}`).remove()
-
-        const template = Handlebars.compile(document.getElementById("edit-shelved-book-template").innerHTML)
-        let results = template(shelvedBook.json)
-        currentShelf.append(results)
-
-        selectOption(shelvedBook.book_id, shelvedBook.status)
-        selectOption(shelvedBook.book_id, shelvedBook.shelf_name)
+      if (previousShelf.attr('id') === currentShelf.attr('id') && wantedShelfId !== previousShelf.attr('id')) {
+        alert("Invalid Changes")
       }
-    })
+      $(`div#book_${shelvedBook.book_id}`).remove()
+
+      const template = Handlebars.compile(document.getElementById("edit-shelved-book-template").innerHTML)
+      let results = template(shelvedBook.json)
+      currentShelf.append(results)
+
+      selectOption(shelvedBook.book_id, shelvedBook.status)
+      selectOption(shelvedBook.book_id, shelvedBook.shelf_name)
+    }
+  })
 }
 
-const selectOption = (book_id, attr) => {
+function selectOption(book_id, attr) {
   $(`div#book_${book_id}`).find(`option:contains(${attr})`).attr('selected', 'selected')
 }
 

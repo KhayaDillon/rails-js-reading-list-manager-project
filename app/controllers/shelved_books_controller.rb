@@ -11,6 +11,11 @@ class ShelvedBooksController < ApplicationController
     end
   end
 
+  def show
+    shelved_book = ShelvedBook.find(params[:id])
+    render json: shelved_book
+  end
+
 
   def update
     shelved_book = ShelvedBook.find(params[:id])

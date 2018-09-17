@@ -1,3 +1,5 @@
+<button id="alphabetize">Alphabetize</button>
+
 <h1>Your Shelves</h1>
 
 <br><br>
@@ -20,12 +22,12 @@
 <div id="shelves">
   <% @shelves.each do |shelf| %>
     <fieldset id="shelf_<%=shelf.id%>">
-      
+
       <legend> <%= shelf.name %> Shelf </legend>
       <% unless shelf.name == "Reading" || shelf.name == "Finished Reading" %>
         <%= link_to "Edit Name", edit_shelf_path(shelf) %>
         <%= link_to "Delete", shelf, method: :delete, data: { confirm: "Are you sure? Any books under this shelf will also be removed." } %>
-      <% end %>    
+      <% end %>
 
       <% shelf.books.each do |book| %>
         <div id="book_<%= book.id %>">

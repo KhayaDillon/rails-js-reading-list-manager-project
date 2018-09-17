@@ -37,7 +37,7 @@
 
     <%= yield %>
 
-    <script id="shelf-template" type="text/x-handlebars-template">
+    <script id="shelf-table-template" type="text/x-handlebars-template">
       <thead>
           <th>{{name}}</th>
       </thead>
@@ -55,46 +55,12 @@
         <legend> {{name}} Shelf </legend>
         <a href="/shelves/5/edit">Edit Name</a>
         <a data-confirm="Are you sure? Any books under this shelf will also be removed." rel="nofollow" data-method="delete" href="/shelves/5">Delete</a>
-
-        {{#each books}}
-          <div>
-            <h4>{{title}}</h4>
-            By: {{author}}<br>
-            Genre: {{genre}}<br>
-            Pages Left: {{pages_left}}
-            <br><br>
-            <form class="edit_shelved_book" id="edit_shelved_book_{{shelved_location.id}}" action="/shelved_books/{{shelved_location.id}}" accept-charset="UTF-8" method="post">
-              <input name="utf8" type="hidden" value="✓">
-              <input type="hidden" name="_method" value="patch">
-              <input type="hidden" name="authenticity_token" value="Ax4RFeQt4iknAc1Bq+tK6FgbvFg7hD1Gmn2ew5QAhOSa0ZiI21J5ff/DpMEQ796VtM2KkPzn+NcH02cWp25unw==">
-              <label for="shelved_book_current_page">Current page</label>
-              <input required="required" min="0.0" max="284" type="number" value="0" name="{{current_page}}" id="shelved_book_current_page">
-              <label for="shelved_book_status">Status</label>
-              <select name="{{status}}" id="shelved_book_status">
-                <option value="Currently Reading">Currently Reading</option>
-                <option selected="selected" value="Plan to Read">Plan to Read</option>
-                <option value="On Hold">On Hold</option>
-                <option value="Finished">Finished</option>
-                <option value="Dropped">Dropped</option>
-              </select>
-              <label for="shelved_book_shelf_id">Shelf</label>
-              <select name="{{shelf_id}}" id="shelved_book_shelf_id">
-                <% if user_signed_in? %>
-                  <% current_user.shelves.each do |shelf| %>
-                    <option selected="selected" value="<%=shelf.id%>"><%=shelf.name%></option>
-                  <% end %>
-                <% end %>
-              <input type="submit" name="commit" value="Update" data-disable-with="Update">
-            </form>
-          </div>
-
-        {{/each}}
         <br><br>
       </fieldset>
       <br><br>
     </script>
 
-    <script id="edit-shelved-book-template" type="text/x-handlebars-template">
+    <script id="shelved-book-template" type="text/x-handlebars-template">
       <div id="book_{{book.id}}">
         <h4>{{book.title}}</h4>
         By: {{book.author}}<br>

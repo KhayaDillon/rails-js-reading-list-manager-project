@@ -3,10 +3,10 @@ $(document).on('turbolinks:load', function() {
   shelvesNewForm()
   onUpdateFormSubmit()
   onShelvesClick()
-  alphabetize()
+  alphabetizeShelves()
 })
 
-function alphabetize() {
+function alphabetizeShelves() {
   $('button#alphabetize').on('click', function() {
     $.get('/shelves.json', resp => {
       let shelves = $(resp)
@@ -32,6 +32,10 @@ function alphabetize() {
             $.get(`/shelved_books/${shelvedBook.id}`, resp => {
               const template = Handlebars.compile(document.getElementById("shelved-book-template").innerHTML)
               currentShelf.append(template(resp))
+
+              debugger
+              selectOption(resp.book_id, resp.status)
+              selectOption(resp.book_id, resp.shelf.name)
             })
           })
         }
@@ -117,20 +121,20 @@ function shelvedBooksEditForm(form) {
     data: values,
     success: (shelvedBookJson) => {
       let shelvedBook = new ShelvedBook(shelvedBookJson)
-      const previousShelf = $(`div#book_${shelvedBook.book_id}`).parent()
-      const currentShelf = $(`fieldset#shelf_${shelvedBook.shelf_id}`)
+      const previousShelf = $(`div#book_${shelvedBook.bookId}`).parent()
+      const currentShelf = $(`fieldset#shelf_${shelvedBook.shelfId}`)
 
       if (previousShelf.attr('id') === currentShelf.attr('id') && wantedShelfId !== previousShelf.attr('id')) {
         alert("Invalid Changes")
       }
-      $(`div#book_${shelvedBook.book_id}`).remove()
+      $(`div#book_${shelvedBook.bookId}`).remove()
 
       const template = Handlebars.compile(document.getElementById("shelved-book-template").innerHTML)
       let results = template(shelvedBook.json)
       currentShelf.append(results)
 
-      selectOption(shelvedBook.book_id, shelvedBook.status)
-      selectOption(shelvedBook.book_id, shelvedBook.shelf_name)
+      selectOption(shelvedBook.bookId, shelvedBook.status)
+      selectOption(shelvedBook.bookId, shelvedBook.shelfName)
     }
   })
 }
@@ -143,19 +147,19 @@ class ShelvedBook {
   constructor(shelvedBook) {
     this.json = shelvedBook
     this.status = shelvedBook['status']
-    this.shelf_id = shelvedBook['shelf_id']
-    this.book_id = shelvedBook['book_id']
-    this.shelf_name = shelvedBook['shelf']['name']
-    this.page_count = shelvedBook['book']['page_count']
-    this.current_page = shelvedBook['current_page']
+    this.shelfId = shelvedBook['shelf_id']
+    this.bookId = shelvedBook['book_id']
+    this.shelfName = shelvedBook['shelf']['name']
+    this.pageCount = shelvedBook['book']['page_count']
+    this.currentPage = shelvedBook['current_page']
   }
 
-  pages_left() {
-    return this.page_count - this.current_page
+  pagesLeft() {
+    return this.pageCount - this.currentPage
   }
 }
 
 Handlebars.registerHelper('pages_left', function(shelvedBookJson) {
     let shelvedBook = new ShelvedBook(shelvedBookJson)
-    return shelvedBook.pages_left()
+    return shelvedBook.pagesLeft()
 })

@@ -33,7 +33,6 @@ function alphabetizeShelves() {
               const template = Handlebars.compile(document.getElementById("shelved-book-template").innerHTML)
               currentShelf.append(template(resp))
 
-              debugger
               selectOption(resp.book_id, resp.status)
               selectOption(resp.book_id, resp.shelf.name)
             })

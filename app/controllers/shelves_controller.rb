@@ -3,7 +3,7 @@ class ShelvesController < ApplicationController
     @shelves = current_user.shelves
     @shelf = Shelf.new
     respond_to do |format|
-      format.html { render :index } 
+      format.html { render :index }
       format.json { render json: @shelves }
     end
   end
@@ -13,22 +13,24 @@ class ShelvesController < ApplicationController
     render json: @shelf
   end
 
-  def create 
+  def create
     shelf = Shelf.new(shelf_params)
     if current_user.has_shelf?(shelf)
       redirect_to user_shelves_path(current_user), notice: "You already have a shelf with this name."
-    else 
-      shelf.save 
+    elsif shelf.name[0] == " "
+      redirect_to user_shelves_path(current_user), notice: "You cannot have whitespace before your shelf name."
+    else
+      shelf.save
       render json: shelf, status: 201
       #redirect_to user_shelves_path(current_user, anchor: "#{shelf.id}")
     end
-  end 
+  end
 
   def edit
     @shelves = current_user.shelves
     @shelf = Shelf.find(params[:id])
     render :index
-  end 
+  end
 
   def update
     shelf = Shelf.find(params[:id])
@@ -38,8 +40,8 @@ class ShelvesController < ApplicationController
       shelf.name = old_name
       shelf.save
       redirect_to user_shelves_path(current_user), notice: "You already have a shelf with this name."
-    else   
-      shelf.save  
+    else
+      shelf.save
       redirect_to user_shelves_path(current_user, anchor: "#{shelf.id}")
     end
   end

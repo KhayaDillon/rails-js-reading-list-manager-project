@@ -3,7 +3,7 @@ This web application allows users to move books to their personal created shelve
 
 ## Usage
 
-To use this app, clone, run rake db:migrate, rake db:seed, and then run rail server.
+To use this app, clone, run rake db:migrate, rake db:seed, and then run rails server.
 
 ## Contributing
 
